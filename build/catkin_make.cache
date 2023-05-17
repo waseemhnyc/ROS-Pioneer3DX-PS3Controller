@@ -1,2 +1,0 @@
-finalproject
--DCATKIN_DEVEL_PREFIX=/home/ubuntu/Mech2_Final_Project/devel -DCMAKE_INSTALL_PREFIX=/home/ubuntu/Mech2_Final_Project/install -G Unix Makefiles

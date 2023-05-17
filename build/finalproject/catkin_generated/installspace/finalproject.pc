@@ -1,8 +1,0 @@
-prefix=/home/ubuntu/Mech2_Final_Project/install
-
-Name: finalproject
-Description: Description of finalproject
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/ubuntu/Mech2_Final_Project/install/lib 
-Requires: 
