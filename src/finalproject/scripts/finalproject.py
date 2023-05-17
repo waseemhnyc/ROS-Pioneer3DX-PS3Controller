@@ -2,75 +2,35 @@
 import rospy 
 from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist, Vector3
+import traceback
 
-def callback(data):
-	leftStick_right_and_left = data.axes[0] # Left stick - Right(-1) and Left(1)
-	leftStick_down_and_up = data.axes[1] # Left Stick - Down(-1) and Up(1)
-	# Values are from 0 - 1
-	# Want to ignore values between 0 - .15 because it makes respones very
-	# sensetive
+class JoyStickController:
+    def __init__(self):
+        rospy.init_node('finalproject')
+        self.pub = rospy.Publisher('/RosAria/cmd_vel',Twist , queue_size=1)
+        self.sub = rospy.Subscriber('/joy', Joy, self.callback)
 
-	print('Joy Stick Output')
-	print (leftStick_right_and_left)
-	print(leftStick_down_and_up)
-	if (is_right(leftStick_right_and_left)):
-		pass
-	elif(is_left(leftStick_right_and_left)):
-		pass
-	elif(is_down(leftStick_down_and_up)):
-		pass
-	elif(is_up(leftStick_down_and_up)):
-		pass
+    def callback(self, data):
+        leftStick_right_and_left = data.axes[0] # Left stick - Right(-1) and Left(1)
+        leftStick_down_and_up = data.axes[1] # Left Stick - Down(-1) and Up(1)
+        
+        linear_speed = 5 * leftStick_down_and_up
+        angular_speed = 5 * leftStick_right_and_left
 
-
-
-	print('------')
-
-def is_down(value):
-	if value < -.2:
-		pub.publish(Twist(Vector3(-5,0,0),Vector3(0,0,0)))
-		return True
-	else:
-		pub.publish(Twist(Vector3(0,0,0),Vector3(0,0,0)))
-		return False
-
-def is_right(value):
-	if value < -.2:
-		pub.publish(Twist(Vector3(0,0,0),Vector3(0,0,-5)))
-		return True
-	else:
-		pub.publish(Twist(Vector3(0,0,0),Vector3(0,0,0)))
-		return False
-
-def is_up(value):
-	if value > .2:
-		pub.publish(Twist(Vector3(5,0,0),Vector3(0,0,0)))
-		return True
-	else:
-		pub.publish(Twist(Vector3(0,0,0),Vector3(0,0,0)))
-		return False
-
-
-def is_left(value):
-	if value > .2:
-		pub.publish(Twist(Vector3(0,0,0),Vector3(0,0,5)))
-		return True
-	else:
-		pub.publish(Twist(Vector3(0,0,0),Vector3(0,0,0)))
-		return False
-
-
-
-
-def Subscriber():
-    rospy.Subscriber('/joy', Joy, callback)
+        # Publish speed data
+        self.pub.publish(Twist(Vector3(linear_speed,0,0), Vector3(0,0,angular_speed)))
+        
+        print('Joy Stick Output')
+        print (leftStick_right_and_left)
+        print(leftStick_down_and_up)
+        print('------')
 
 if __name__ == '__main__':
     try:
-    	rospy.init_node('finalproject')
-    	pub = rospy.Publisher('/RosAria/cmd_vel',Twist , queue_size=1)
-    	while not rospy.is_shutdown():
-    		Subscriber()
-    		rospy.spin()
-    except rospy.ROSInterruptException:
-    	pass
+        js_controller = JoyStickController()
+        rospy.spin()
+    except rospy.ROSInterruptException as e:
+        print("ROSInterruptException: {}".format(e))
+    except Exception as e:
+        print("Unexpected error:", e)
+        traceback.print_exc()
