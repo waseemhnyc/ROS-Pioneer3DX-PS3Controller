@@ -1,8 +1,7 @@
 # ROS-Pioneer3DX-PS3Controller
 
 ![Webots Pioneer3DX](assets/pioneer-3dx.png)
-Picture taken from: https://cyberbotics.com/doc/guide/pioneer-3dx
-
+Picture taken from: <https://cyberbotics.com/doc/guide/pioneer-3dx>
 
 The goal of this project was to control a [Pioneer3DX robot](https://cyberbotics.com/doc/guide/pioneer-3dx) with a PS3 controller.
 
@@ -13,11 +12,13 @@ Make sure you first configure your Pioneer 3DX and connect it to your Wifi netwo
 ## Getting Started
 
 Clone this repository
+
 ```bash
 git clone https://github.com/waseemhnyc/ROS-Pioneer3DX-PS3Controller
 ```
 
 Move into the clone repo, build and source the project and then grant project.py the required permissions.
+
 ```bash
 cd ROS-Pioneer3DX-PS3Controller
 catkin_make
@@ -36,22 +37,31 @@ Download and source (`source devel/setup.bash`) the following packages:
 Now in separate terminals run the following:
 
 Terminal 1:
+
 ```bash
 roscore
 ```
 
 Terminal 2:
+
 ```bash
 rosrun rosaria RosAria __port:={IP_ADDRESS}:8101
 rosrun rosaria RosAria __port:=192.168.0.1:8101
 ```
 
 Terminal 3:
+
 ```bash
 rosrun joy joy_node
 ```
 
 Terminal 4:
+
 ```bash
 rosrun project 3dx_joy_stick_controller
 ```
+
+## Questions or Get in Touch
+
+- Twitter: <https://twitter.com/waseemhnyc>
+- Email: <waseemh.nyc@gmail.com>
